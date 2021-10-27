@@ -28,6 +28,9 @@ const stdlib = loadStdlib(process.env);
         },
         seeOutcome: (outcome) => {
             console.log(`${Who} saw outcome ${OUTCOME[outcome]}`)
+        },
+        informTimeout: () => {
+            console.log(`${Who} observed a timeout`);
         }
     });
 
@@ -36,12 +39,20 @@ const stdlib = loadStdlib(process.env);
             //implement alice
             ...Player('Alice'),
             wager: stdlib.parseCurrency(5),
+            deadline: 10,
         }),
         backend.Bob(ctcBob, {
             //implement bob
             ...Player('Bob'),
-            acceptWager: (amt) => {
-                console.log(`Bob accepts the wager of ${fmt(amt)}.`);
+            acceptWager: async (amt) => {
+                if(Math.random() <= 0.5) {
+                    for(let i = 0; i < 10 ; i++) {
+                        console.log(`Bob takes his sweet time......`);
+                        await stdlib.wait(1);
+                    }
+                }else{
+                    console.log(`Bob accepts wager of ${fmt(amt)}`);
+                }
             },
         }),
     ]);
