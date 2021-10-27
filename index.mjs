@@ -20,6 +20,7 @@ const stdlib = loadStdlib(process.env);
     const OUTCOME = ['Bob Wins', 'Draw', 'Alice Wins'];
 
     const Player = (Who) => ({
+        ...stdlib.hasRandom,
         getHand: () => {
             const hand = Math.floor(Math.random() * 3);
             console.log(`${Who} played ${HAND[hand]}`);
